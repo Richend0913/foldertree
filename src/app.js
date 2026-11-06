@@ -1,7 +1,6 @@
 import {
   DEFAULT_EXCLUDES,
   DEFAULT_PATTERNS,
-  MAX_FILES,
   MAX_READ,
   createFilter,
   parsePatterns,
@@ -10,6 +9,7 @@ import {
   treeFromPaths,
   wrapInFence,
 } from './tree.js';
+import { isConfiguredUrl } from './links.js';
 
 const MAX_DEPTH_CHOICE = 10;
 const DOWNLOAD_NAME = 'folder-tree.txt';
@@ -41,7 +41,9 @@ function applyStrings() {
     element.textContent = t(element.dataset.i18n);
   }
   for (const element of document.querySelectorAll('[data-href]')) {
-    element.href = strings[element.dataset.href];
+    const url = strings[element.dataset.href];
+    if (isConfiguredUrl(url)) element.href = url;
+    else element.hidden = true;
   }
 }
 
@@ -98,25 +100,37 @@ function clearResult() {
   setHasResult(false);
 }
 
+function describeCutoff({ truncatedBy, shownFiles, shownFolders }) {
+  const { totalFiles, totalFolders } = scanned;
+  if (truncatedBy === 'files') {
+    const values = { shown: count(shownFiles), total: count(totalFiles) };
+    return { line: t('treeTruncatedLine', values), notice: t('noticeFileLimit', values) };
+  }
+  const values = {
+    shown: count(shownFiles + shownFolders),
+    total: count(totalFiles + totalFolders),
+  };
+  return { line: t('treeNodeLimitLine', values), notice: t('noticeNodeLimit', values) };
+}
+
 function renderOutput() {
   if (!scanned) return;
   const { root, totalFiles, readLimitHit, unreadable } = scanned;
   const maxDepth = $('depth').value ? Number($('depth').value) : Infinity;
   const style = document.querySelector('input[name="style"]:checked').value;
-  const tree = renderTree(root, { style, maxDepth, maxFiles: MAX_FILES });
+  const tree = renderTree(root, {
+    style,
+    maxDepth,
+    cutoffLine: (cut) => describeCutoff(cut).line,
+  });
 
   const notices = [];
-  let text = tree.text;
-  if (tree.truncated) {
-    const values = { shown: count(tree.shownFiles), total: count(totalFiles) };
-    text += `\n${t('treeTruncatedLine', values)}`;
-    notices.push(t('noticeFileLimit', values));
-  }
+  if (tree.truncated) notices.push(describeCutoff(tree).notice);
   if (readLimitHit) notices.push(t('noticeReadLimit', { limit: count(MAX_READ) }));
   if (unreadable > 0) notices.push(t('noticeUnreadable', { count: count(unreadable) }));
 
-  outputText = text;
-  $('preview').textContent = text;
+  outputText = tree.text;
+  $('preview').textContent = tree.text;
   $('stats').textContent =
     tree.shownFiles === totalFiles
       ? `${plural(tree.shownFolders, 'folderOne', 'folderOther')}, ${plural(totalFiles, 'fileOne', 'fileOther')}`
@@ -218,10 +232,6 @@ function supportsDrop() {
 
 function setUpDrop() {
   const picker = $('picker');
-  if (!supportsDrop()) {
-    $('dropHint').hidden = true;
-    return;
-  }
   picker.classList.add('can-drop');
 
   // A drop that misses the zone would otherwise navigate away from the page.
@@ -237,6 +247,16 @@ function setUpDrop() {
     if (!picker.contains(event.relatedTarget)) picker.classList.remove('is-over');
   });
   picker.addEventListener('drop', onDrop);
+}
+
+// Each input method is checked on its own, so losing one keeps the other.
+function setUpInputs() {
+  const canChoose = 'webkitdirectory' in $('folderInput');
+  const canDrop = supportsDrop();
+  $('choose').hidden = !canChoose;
+  $('dropHint').hidden = !canDrop;
+  if (canDrop) setUpDrop();
+  if (!canChoose && !canDrop) showError(t('errorUnsupported'));
 }
 
 function showCopyMessage(message) {
@@ -295,13 +315,7 @@ async function start() {
   applyStrings();
   buildOptions();
   bindEvents();
-  if ('webkitdirectory' in $('folderInput')) {
-    setUpDrop();
-  } else {
-    $('choose').disabled = true;
-    $('dropHint').hidden = true;
-    showError(t('errorUnsupported'));
-  }
+  setUpInputs();
   document.body.classList.add('is-ready');
 }
 

@@ -26,7 +26,7 @@ It runs entirely in your browser, with no login and no build step.
 | Option | Default | Notes |
 | --- | --- | --- |
 | Exclude | All on | `node_modules`, `.git`, `dist`, `build`, `.next`, `__pycache__`, `.idea`, `.vscode`, `coverage`, `vendor` |
-| Show hidden files | On | Names that start with a dot |
+| Show hidden files and folders | On | Names that start with a dot |
 | Custom exclude patterns | `.DS_Store, Thumbs.db` | Comma-separated names, with `*` and `?` as wildcards |
 | Depth limit | Unlimited | 1 to 10 levels |
 | Tree style | Unicode | Unicode (`├──`) or ASCII (`\|--`) |
@@ -36,7 +36,7 @@ Exclusions match names at any level, including files. The folder you pick is nev
 
 ## Limits
 
-- Trees are cut off at 5,000 files, and the page shows how many were found.
+- Trees are cut off at 5,000 files or 10,000 items (files plus folders), and the page shows how many were found.
 - Reading stops after 200,000 items.
 - With **Choose folder**, excluded items still count toward the read limit because the browser lists every file up front. Drag and drop skips excluded folders without opening them.
 - Empty folders may be missing with **Choose folder**, because browsers can only list the files inside a selected folder. Drag and drop keeps them.
@@ -51,7 +51,7 @@ Some browsers ask you to confirm an "upload" when you choose a folder. That is t
 
 ## Replacing the Ko-fi link
 
-The Ko-fi link is a placeholder until a Ko-fi account exists. After creating the account, change this one place:
+The Ko-fi link stays hidden while `KOFI_URL` is empty or still the placeholder. After creating the Ko-fi account, change this one place:
 
 1. Open `strings/en.json`.
 2. Set `KOFI_URL` to your Ko-fi page. It starts as `https://ko-fi.com/YOUR-KOFI-NAME`.
