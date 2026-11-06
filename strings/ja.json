@@ -1,0 +1,62 @@
+{
+  "KOFI_URL": "",
+  "SPONSOR_URL": "https://github.com/sponsors/Richend0913",
+  "REPO_URL": "https://github.com/Richend0913/foldertree",
+
+  "pageTitle": "FolderTree: フォルダをREADME用のツリーに変換",
+  "appName": "FolderTree",
+  "headline": "フォルダをREADME用のツリーに変換。",
+  "subhead": "フォルダを選ぶと、Markdownに貼り付けられるツリーを作成します。",
+  "privacy": "ファイルはお使いの端末から出ません。アップロードは一切行いません。",
+  "chooseFolder": "フォルダを選択",
+  "dropHere": "ここにフォルダをドロップ",
+
+  "optionsTitle": "オプション",
+  "excludeTitle": "除外",
+  "showHidden": "隠しファイルを表示",
+  "patternsLabel": "カスタム除外パターン",
+  "patternsHelp": "カンマ区切りの名前で指定します。* と ? はワイルドカードとして使えます（例: *.log）。",
+  "depthLabel": "深さの上限",
+  "depthUnlimited": "無制限",
+  "styleLabel": "ツリーの形式",
+  "styleUnicode": "Unicode (├──)",
+  "styleAscii": "ASCII (|--)",
+
+  "resultTitle": "ツリー",
+  "emptyState": "ここにツリーが表示されます。",
+  "copyTree": "ツリーをコピー",
+  "downloadTxt": ".txtをダウンロード",
+  "fenceLabel": "コピー時にMarkdownコードフェンスで囲む",
+  "copied": "ツリーをコピーしました！",
+  "copyFailed": "コピーできませんでした。ツリーを選択して手動でコピーしてください。",
+
+  "reading": "読み込み中... {count} 件",
+  "fileOne": "{count} ファイル",
+  "fileOther": "{count} ファイル",
+  "folderOne": "{count} フォルダ",
+  "folderOther": "{count} フォルダ",
+  "statsPartial": "{folders}、{total} ファイル中 {shown} 件を表示",
+  "treeTruncatedLine": "... ({total} ファイル中、最初の {shown} 件を表示)",
+  "noticeFileLimit": "このツリーは {total} ファイル中、最初の {shown} 件で打ち切られています。",
+  "noticeReadLimit": "{limit} 件で読み取りを停止したため、ツリーが不完全な可能性があります。",
+  "noticeUnreadable": "読み取れなかったフォルダ: {count} 個。ツリーが不完全な可能性があります。",
+
+  "errorEmpty": "フォルダ内にファイルが見つかりませんでした。空のフォルダは「フォルダを選択」では読み取れません。ドロップをお試しください。",
+  "errorNotFolder": "フォルダではないようです。ファイルではなくフォルダをドロップしてください。",
+  "errorOneFolder": "フォルダは一度に1つだけドロップしてください。",
+  "errorRead": "フォルダを読み取れませんでした。もう一度お試しください。",
+  "errorUnsupported": "このブラウザではフォルダを開けません。デスクトップ版のChrome、Edge、Firefox、Safariをお試しください。",
+
+  "tipPrompt": "役に立ちましたか？ チップで応援できます。",
+  "tipKofi": "Ko-fiでチップを送る",
+  "tipSponsor": "GitHubでスポンサーになる",
+
+  "notesTitle": "ご利用にあたって",
+  "noteNames": "読み取るのはファイル名とフォルダ名だけです。ファイルの中身は開きません。",
+  "noteEmptyFolders": "「フォルダを選択」では、ブラウザが選択フォルダ内のファイルしか列挙できないため、空のフォルダが表示されない場合があります。ドラッグ＆ドロップなら表示されます。",
+  "noteBrowserPrompt": "フォルダを選ぶと、ブラウザが「アップロード」の確認を表示することがあります。これはフォルダをこのページに渡すときの標準の文言で、データが端末の外に出ることはありません。",
+  "noteLimits": "ツリーは5,000ファイルで打ち切り、読み取りは20万件で停止します。",
+
+  "footerNoTracking": "トラッキング、Cookie、広告はありません。",
+  "footerSource": "GitHubのソースコード"
+}
