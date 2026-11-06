@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Turn a local folder into an ASCII or Unicode tree you can paste into a GitHub README. Runs entirely in your browser. Nothing is uploaded.">
+  <title>FolderTree</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="src/styles.css">
+  <script type="module" src="src/app.js"></script>
+</head>
+<body>
+  <noscript><p class="fatal">FolderTree needs JavaScript. It runs entirely in your browser.</p></noscript>
+  <p class="fatal" id="loadError" hidden>FolderTree could not load. If you opened index.html directly, serve the folder over HTTP instead.</p>
+
+  <div class="page">
+    <header class="site-header">
+      <svg class="logo" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 3v15a2 2 0 0 0 2 2h6M5 9h8"/>
+        <rect x="14" y="6.5" width="7" height="5" rx="1"/>
+        <rect x="14" y="17.5" width="7" height="5" rx="1"/>
+      </svg>
+      <span class="wordmark" data-i18n="appName"></span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1 data-i18n="headline"></h1>
+        <p class="lede" data-i18n="subhead"></p>
+      </section>
+
+      <section class="picker" id="picker">
+        <p class="drop-hint" id="dropHint" data-i18n="dropHere"></p>
+        <button class="button primary" id="choose" type="button" data-i18n="chooseFolder"></button>
+        <input class="visually-hidden" id="folderInput" type="file" webkitdirectory directory multiple tabindex="-1" aria-hidden="true">
+        <p class="privacy">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="11" width="16" height="10" rx="2"/>
+            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+          <span data-i18n="privacy"></span>
+        </p>
+        <p class="error" id="error" role="alert" hidden></p>
+      </section>
+
+      <div class="workspace">
+        <aside class="panel options">
+          <h2 data-i18n="optionsTitle"></h2>
+
+          <fieldset>
+            <legend data-i18n="excludeTitle"></legend>
+            <div class="exclude-list" id="excludeList"></div>
+          </fieldset>
+
+          <label class="check">
+            <input id="showHidden" type="checkbox" checked>
+            <span data-i18n="showHidden"></span>
+          </label>
+
+          <div class="field">
+            <label for="patterns" data-i18n="patternsLabel"></label>
+            <input id="patterns" type="text" spellcheck="false" autocomplete="off" aria-describedby="patternsHelp">
+            <p class="help" id="patternsHelp" data-i18n="patternsHelp"></p>
+          </div>
+
+          <div class="field">
+            <label for="depth" data-i18n="depthLabel"></label>
+            <select id="depth"></select>
+          </div>
+
+          <fieldset>
+            <legend data-i18n="styleLabel"></legend>
+            <label class="check">
+              <input type="radio" name="style" value="unicode" checked>
+              <span data-i18n="styleUnicode"></span>
+            </label>
+            <label class="check">
+              <input type="radio" name="style" value="ascii">
+              <span data-i18n="styleAscii"></span>
+            </label>
+          </fieldset>
+        </aside>
+
+        <section class="panel result" aria-labelledby="resultTitle">
+          <h2 id="resultTitle" data-i18n="resultTitle"></h2>
+          <p class="empty-state" id="emptyState" data-i18n="emptyState"></p>
+
+          <div id="resultBody" hidden>
+            <p class="stats" id="stats" aria-live="polite"></p>
+            <p class="notices" id="notices" hidden></p>
+            <pre class="preview" id="preview" tabindex="0"></pre>
+            <div class="actions">
+              <button class="button primary" id="copy" type="button" data-i18n="copyTree"></button>
+              <button class="button" id="download" type="button" data-i18n="downloadTxt"></button>
+              <label class="check">
+                <input id="fence" type="checkbox" checked>
+                <span data-i18n="fenceLabel"></span>
+              </label>
+              <span class="copy-status" id="copyStatus" role="status"></span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="tip" id="tip" hidden>
+        <p data-i18n="tipPrompt"></p>
+        <div class="tip-links">
+          <a class="button" data-href="KOFI_URL" data-i18n="tipKofi" target="_blank" rel="noopener noreferrer"></a>
+          <a class="button" data-href="SPONSOR_URL" data-i18n="tipSponsor" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+      </section>
+
+      <section class="notes">
+        <h2 data-i18n="notesTitle"></h2>
+        <ul>
+          <li data-i18n="noteNames"></li>
+          <li data-i18n="noteEmptyFolders"></li>
+          <li data-i18n="noteBrowserPrompt"></li>
+          <li data-i18n="noteLimits"></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span data-i18n="footerNoTracking"></span>
+      <a data-href="REPO_URL" data-i18n="footerSource" target="_blank" rel="noopener noreferrer"></a>
+    </footer>
+  </div>
+</body>
+</html>
